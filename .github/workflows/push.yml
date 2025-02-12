@@ -14,13 +14,13 @@ jobs:
 
       - name: load secret and download sql proxy
         run: |
-          echo ${{ secrets.SQL_PROXY_KEY }} > ./secrets.json
+          echo '${{ secrets.SQL_PROXY_KEY }}' > $HOME/gcp-key.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp-key.json" >> $GITHUB_ENV
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
 
       - name: db migration
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ./secrets.json
           DATABASE_URL: ${{ secrets.SQL_URL }}
         run: |
           ./cloud_sql_proxy -instances=yhparkkk:asia-northeast3:dusgh4314=tcp:3306 &
