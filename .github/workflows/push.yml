@@ -1,0 +1,29 @@
+name: sql proxy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code from Develop Staging
+        uses: actions/checkout@v4
+
+      - name: load secret and download sql proxy
+        run: |
+          echo ${{ secrets.SQL_PROXY_KEY }} > ./secrets.json
+          wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+          chmod +x cloud_sql_proxy
+
+      - name: db migration
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./secrets.json
+          API_MYSQL_URL: ${{ secrets.SQL_URL }}
+        run: |
+          ./cloud_sql_proxy -instances=yhparkkk:asia-northeast3:dusgh4314=tcp:3306 &
+          npm install prisma 
+          npx prisma migrate deploy
+          exit 0;
