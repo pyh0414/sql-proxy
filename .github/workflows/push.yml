@@ -21,7 +21,7 @@ jobs:
       - name: db migration
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./secrets.json
-          API_MYSQL_URL: ${{ secrets.SQL_URL }}
+          DATABASE_URL: ${{ secrets.SQL_URL }}
         run: |
           ./cloud_sql_proxy -instances=yhparkkk:asia-northeast3:dusgh4314=tcp:3306 &
           npm install prisma 
