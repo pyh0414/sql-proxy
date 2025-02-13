@@ -19,11 +19,11 @@ jobs:
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
 
-      - name: db migration
-        env:
-          DATABASE_URL: ${{ secrets.SQL_URL }}
-        run: |
-          ./cloud_sql_proxy -instances=yhparkkk:asia-northeast3:dusgh4314=tcp:3306 &
-          npm install prisma 
-          npx prisma migrate deploy
-          exit 0;
+    #   - name: db migration
+    #     env:
+    #       DATABASE_URL: ${{ secrets.SQL_URL }}
+    #     run: |
+    #       ./cloud_sql_proxy -instances=yhparkkk:asia-northeast3:dusgh4314=tcp:3306 &
+    #       npm install prisma
+    #       npx prisma migrate deploy
+    #       exit 0;
